@@ -29,7 +29,17 @@ public class UserService {
         String hashedPassword = hashService.getHashedValue(userSignUpForm.getPassword(), encodedSalt);
         return userMapper.insertUser(new User(null, encodedSalt, hashedPassword, userSignUpForm));
     }
-
+    public int createUser(User user){
+        byte[] salt = new byte[16];
+        SecureRandom random = new SecureRandom();
+        random.nextBytes(salt);
+        String encodedSalt = Base64.getEncoder().encodeToString(salt);
+        String hashedPassword = hashService.getHashedValue(user.getPassword(), encodedSalt);
+        return userMapper.insertUser(new User(null,user.getUsername(), encodedSalt, hashedPassword, user.getFirstname(), user.getLastName()));
+    }
+    public int deleteAllUsers() {
+        return userMapper.deleteAllUsers();
+    }
     public User getUser(String username) {
         return userMapper.getUser(username);
     }

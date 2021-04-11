@@ -7,6 +7,14 @@ public class Credential {
     private String password;
     private int userId;
 
+    public Credential(Integer credentialId, String URL, String username, String password, int userId) {
+        this.credentialId = credentialId;
+        this.URL = URL;
+        this.username = username;
+        this.password = password;
+        this.userId = userId;
+    }
+
     //SETTERS & GETTERS.
     public Integer getCredentialId() {
         return credentialId;
