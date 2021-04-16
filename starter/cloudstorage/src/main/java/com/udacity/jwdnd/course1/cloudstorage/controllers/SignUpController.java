@@ -29,7 +29,7 @@ public class SignUpController {
 
     @PostMapping
     public String doPost(@ModelAttribute("userSignUpForm") UserSignUpForm userSignUpForm, Model model){
-        String errorMessage = null;
+        String errorMessage;
         if(!userService.isUsernameAvailable(userSignUpForm.getUsername())){
             errorMessage = "Username is already taken.";
             model.addAttribute("errorFlag", true);

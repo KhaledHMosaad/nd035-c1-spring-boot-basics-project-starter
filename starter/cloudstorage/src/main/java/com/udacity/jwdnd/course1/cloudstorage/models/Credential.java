@@ -5,14 +5,25 @@ public class Credential {
     private String url;
     private String username;
     private String password;
-    private int userId;
+    private Integer userId;
 
-    public Credential(Integer credentialId, String URL, String username, String password, int userId) {
+    public Credential(Integer credentialId, String url, String username, String password, Integer userId) {
         this.credentialId = credentialId;
         this.url = url;
         this.username = username;
         this.password = password;
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "Credential{" +
+                "credentialId=" + credentialId +
+                ", url='" + url + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", userId=" + userId +
+                '}';
     }
 
     //SETTERS & GETTERS.
@@ -22,11 +33,11 @@ public class Credential {
     public void setCredentialId(Integer credentialId) {
         this.credentialId = credentialId;
     }
-    public String getURL() {
+    public String getUrl() {
         return url;
     }
-    public void setURL(String URL) {
-        this.url = URL;
+    public void setUrl(String url) {
+        this.url = url;
     }
     public String getUsername() {
         return username;
@@ -40,10 +51,10 @@ public class Credential {
     public void setPassword(String password) {
         this.password = password;
     }
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 }

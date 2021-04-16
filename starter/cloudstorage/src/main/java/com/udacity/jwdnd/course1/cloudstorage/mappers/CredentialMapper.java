@@ -23,6 +23,14 @@ public interface CredentialMapper {
             " WHERE u.username = #{username}")
     List<Credential> getAllCredentialsForUser(String username);
 
+    @Select("SELECT c.credentialid, c.url, c.username, c.password, c.userid" +
+            " FROM USERS AS u" +
+            " JOIN CREDENTIALS AS c" +
+            " ON u.userid = c.userid" +
+            " WHERE u.username = #{username}" +
+            " AND c.credentialid = #{credentialId}")
+    Credential getCredentialForUserByCredentialId(String username, Integer credentialId);
+
     @Delete("Delete FROM CREDENTIALS;")
     int deleteAllCredentials();
 
@@ -35,4 +43,12 @@ public interface CredentialMapper {
             " FROM USERS AS u" +
             " WHERE u.username = #{username})")
     int deleteAllCredentialsForUserByUsername(String username);
+
+    @Delete("DELETE FROM CREDENTIALS AS c WHERE c.credentialid = #{credentialId}")
+    int deleteCredentialById(int credentialId);
+
+    @Update("Update CREDENTIALS AS c " +
+            "SET c.url = #{url}, c.username = #{username}, c.password = #{password}" +
+            "WHERE c.credentialId = #{credentialId}")
+    int updateCredential(Credential credential);
 }

@@ -36,4 +36,17 @@ public class NoteService {
     public int deleteAllNotesForUserByUsername(String username){
         return noteMapper.deleteAllNotesForUserByUsername(username);
     }
+    public int deleteNoteById(int id){
+        return noteMapper.deleteNoteById(id);
+    }
+    public Note getNoteById(int id){
+        return noteMapper.getNoteById(id);
+    }
+    public Note getNoteForUserByNoteId(String username, int id){
+        return noteMapper.getNoteForUserByNoteId(username, id);
+    }
+    public int updateNote(Note note) {
+        return noteMapper.updateNote(note);
+    }
+
 }

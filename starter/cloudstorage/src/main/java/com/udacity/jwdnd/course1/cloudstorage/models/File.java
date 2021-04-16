@@ -1,13 +1,34 @@
 package com.udacity.jwdnd.course1.cloudstorage.models;
 
+import java.util.Arrays;
+
 public class File {
     private Integer fileId;
-    private String filename;
+    private String fileName;
     private String contentType;
-    private String fileSize;
-    private int userId;
+    private long fileSize;
+    private Integer userId;
     private byte[] fileData;
 
+    public File(Integer fileId, String fileName, String contentType, long fileSize, Integer userId, byte[] fileData) {
+        this.fileId = fileId;
+        this.fileName = fileName;
+        this.contentType = contentType;
+        this.fileSize = fileSize;
+        this.userId = userId;
+        this.fileData = fileData;
+    }
+    @Override
+    public String toString() {
+        return "File{" +
+                "fileId=" + fileId +
+                ", fileName='" + fileName + '\'' +
+                ", contentType='" + contentType + '\'' +
+                ", fileSize=" + fileSize +
+                ", userId=" + userId +
+                ", fileData=" + Arrays.toString(fileData) +
+                '}';
+    }
 
     public Integer getFileId() {
         return fileId;
@@ -15,11 +36,11 @@ public class File {
     public void setFileId(Integer fileId) {
         this.fileId = fileId;
     }
-    public String getFilename() {
-        return filename;
+    public String getFileName() {
+        return fileName;
     }
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
     public String getContentType() {
         return contentType;
@@ -27,10 +48,10 @@ public class File {
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
-    public String getFileSize() {
+    public long getFileSize() {
         return fileSize;
     }
-    public void setFileSize(String fileSize) {
+    public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
     public int getUserId() {
