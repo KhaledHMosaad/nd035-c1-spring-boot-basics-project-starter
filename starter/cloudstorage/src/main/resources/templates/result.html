@@ -17,13 +17,12 @@
             </div>
             <div class="alert alert-danger fill-parent" th:unless="${isSuccessful}">
                 <h1 class="display-5">Error</h1>
-                <span >Your changes were not saved. Click <a th:href="@{/home}">here</a> to continue.</span>
+                <span >Your changes were not saved.</span>
                 <span>Click <a th:href="@{/home}">here</a> to continue.</span>
             </div>
             <div class="alert alert-danger fill-parent" th:unless="${isSuccessful}">
                 <h1 class="display-5">Error</h1>
                 <span th:text="${message}">Example Error Message</span>
-                <span >Click <a th:href="@{/home}">here</a> to continue.</span>
                 <span>Click <a th:href="@{/home}">here</a> to continue.</span>
             </div>
 

@@ -5,11 +5,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +18,7 @@ public class SignUpPageTest {
     @LocalServerPort
     public int port;
     public static WebDriver driver;
-    public  String baseURL;
+    public String baseURL;
 
     @BeforeAll
     public static void beforeAll(){
@@ -40,7 +38,7 @@ public class SignUpPageTest {
     public void testUserSignUp(){
         driver.get(baseURL + "/signup");
         SignUpPage signUpPage = new SignUpPage(driver);
-        signUpPage.signup("John", "Doe", "JohnyDoe", "123456789");
+        signUpPage.signup("John", "Doe", "JohnDoe", "123456789");
         WebElement successfulSignupMessage = signUpPage.getSuccessfulSignupMessage();
         assertTrue(successfulSignupMessage.getText().contains("You successfully signed up!"));
     }

@@ -1,6 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers.seleniumpages;
 
-import org.h2.mvstore.Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

@@ -1,20 +1,17 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
 import com.udacity.jwdnd.course1.cloudstorage.controllers.seleniumpages.HomePage;
-import com.udacity.jwdnd.course1.cloudstorage.controllers.seleniumpages.LoginPage;
-import com.udacity.jwdnd.course1.cloudstorage.controllers.seleniumpages.SignUpPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import static com.udacity.jwdnd.course1.cloudstorage.utils.Utils.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -48,8 +45,8 @@ public class HomePageTest {
 
     @Test
     public void TestSignUpLoginLogout(){
-        userSignUp();
-        userLogin();
+        userSignUp(driver, baseURL,"John", "Doe","JohnDoe","123456789");
+        userLogin(driver, baseURL, "JohnDoe", "123456789");
 
         HomePage homePage = new HomePage(driver);
         assertEquals(baseURL + "/home", driver.getCurrentUrl());
@@ -62,24 +59,5 @@ public class HomePageTest {
         assertEquals(baseURL + "/login", driver.getCurrentUrl());
     }
 
-    @Test
-    public void testLoginCreateNoteAndCheckIfVisible(){
-        userSignUp();
-        userLogin();
-    }
-    public void userLogin(){
-        LoginPage loginPage = new LoginPage(driver);
-        driver.get(baseURL + "/login");
-        loginPage.login("JohnDoe", "123456789");
-    }
-    public void userSignUp(){
-        String firstName = "John";
-        String lastName = "Doe";
-        String username = "JohnDoe";
-        String password = "123456789";
 
-        SignUpPage signUpPage = new SignUpPage(driver);
-        driver.get(baseURL + "/signup");
-        signUpPage.signup(firstName, lastName, username, password);
-    }
 }
