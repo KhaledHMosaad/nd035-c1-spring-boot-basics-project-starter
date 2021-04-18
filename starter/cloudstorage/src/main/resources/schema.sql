@@ -12,12 +12,13 @@ CREATE TABLE IF NOT EXISTS NOTES (
     notetitle VARCHAR(20),
     notedescription VARCHAR (1000),
     userid INT,
-    foreign key (userid) references USERS(userid)
+    foreign key (userid) references USERS(userid),
+    UNIQUE (notetitle, notedescription)
 );
 
 CREATE TABLE IF NOT EXISTS FILES (
     fileId INT PRIMARY KEY auto_increment,
-    filename VARCHAR,
+    filename VARCHAR UNIQUE ,
     contenttype VARCHAR,
     filesize VARCHAR,
     userid INT,

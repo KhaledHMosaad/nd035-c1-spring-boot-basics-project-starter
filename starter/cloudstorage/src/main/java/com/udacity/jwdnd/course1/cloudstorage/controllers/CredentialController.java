@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controllers;
 import com.udacity.jwdnd.course1.cloudstorage.models.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
+import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +16,12 @@ import java.security.Principal;
 public class CredentialController {
     private UserService userService;
     private CredentialService credentialService;
+    private EncryptionService encryptionService;
 
-    public CredentialController(CredentialService credentialService, UserService userService) {
+    public CredentialController(UserService userService, CredentialService credentialService, EncryptionService encryptionService) {
         this.userService = userService;
         this.credentialService = credentialService;
+        this.encryptionService = encryptionService;
     }
 
     @GetMapping("/{id}/delete")
@@ -35,8 +38,9 @@ public class CredentialController {
     @PostMapping
     public String post(Principal principal, @ModelAttribute("credential") Credential credential, Model model){
         User currentUser = userService.getUser(principal.getName());
+        String encryptedCredentialPassword = encryptionService.encryptValue(credential.getPassword(),currentUser.getPassword());
+        credential.setPassword(encryptedCredentialPassword);
         if(credential.getCredentialId() > 0){
-            System.out.println(credential);
             credentialService.updateCredential(credential);
             String message = "The credential has been edited successfully";
             return "redirect:/result?isSuccessful=" + true + "&message=" + message;

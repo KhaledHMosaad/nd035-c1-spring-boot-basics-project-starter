@@ -61,10 +61,9 @@ public class CredentialFlowTest {
         HomePage homePage = new HomePage(driver);
         WebElement actualCredentialUrl = homePage.searchCredentialsByUrl("www.superduperdrive.com");
         WebElement actualUsername = homePage.searchCredentialsByUsername("testCredential0");
-        WebElement actualPassword = homePage.searchCredentialsByPassword("credPassword0");
         assertNotNull(actualCredentialUrl);
         assertNotNull(actualUsername);
-        assertNotNull(actualPassword);
+
     }
 
     @Test
@@ -75,10 +74,8 @@ public class CredentialFlowTest {
         homePage.openCredentialsTab();
         WebElement actualCredentialUrl = homePage.searchCredentialsByUrl("edited credential url");
         WebElement actualCredentialUsername = homePage.searchCredentialsByUsername("edited credential username");
-        WebElement actualCredentialPassword = homePage.searchCredentialsByPassword("edited credential password");
         assertEquals("edited credential url", actualCredentialUrl.getText());
         assertEquals("edited credential username", actualCredentialUsername.getText());
-        assertEquals("edited credential password", actualCredentialPassword.getText());
     }
     @Test
     void testDeleteCredential() throws InterruptedException {

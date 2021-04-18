@@ -14,7 +14,6 @@ public class ResultController {
     @GetMapping
     public String doGet(@RequestParam(name = "isSuccessful") boolean isSuccessful,
                         @RequestParam(name = "message") String message,
-                        HttpServletResponse response,
                         Model model)
     {
         model.addAttribute("isSuccessful", isSuccessful);

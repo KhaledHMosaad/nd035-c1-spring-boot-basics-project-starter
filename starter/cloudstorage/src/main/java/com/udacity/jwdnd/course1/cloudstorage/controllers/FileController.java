@@ -5,9 +5,14 @@ import com.udacity.jwdnd.course1.cloudstorage.models.File;
 import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import org.apache.ibatis.datasource.DataSourceException;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+import org.apache.tomcat.util.http.fileupload.impl.SizeException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -16,6 +21,7 @@ import java.io.IOException;
 import java.security.Principal;
 
 @Controller
+@ControllerAdvice
 @RequestMapping("/files")
 public class FileController {
     private UserService userService;
@@ -28,32 +34,38 @@ public class FileController {
     @PostMapping
     public String post(
             Principal principal,
-            @ModelAttribute("fileForm") FileForm fileForm,
-            Model model
+            @ModelAttribute("fileForm") FileForm fileForm
     ){
+
         User currentUser = userService.getUser(principal.getName());
+        MultipartFile multipartFile = fileForm.getMultipartFile();
+        String fileName = multipartFile.getOriginalFilename();
+        String contentType = multipartFile.getContentType();
+        long fileSize = multipartFile.getSize();
+        Integer userId = currentUser.getUserId();
+        byte[] fileData;
         try {
-            MultipartFile multipartFile = fileForm.getMultipartFile();
-            String fileName = multipartFile.getOriginalFilename();
-            String contentType = multipartFile.getContentType();
-            long fileSize = multipartFile.getSize();
-            Integer userId = currentUser.getUserId();
-            byte[] fileData = new byte[0];
             fileData  = multipartFile.getBytes();
-            String message = "The file has been uploaded successfully.";
+            if (multipartFile.isEmpty()){
+                String message = "Please provide a file that is not empty.";
+                return "redirect:/result?isSuccessful=" + false + "&message=" + message;
+            }
             fileService.createFile(new File(null, fileName, contentType, fileSize, userId, fileData));
-            return "redirect:/result?isSuccessful=" + true + "&message=" + message;
-        } catch (IOException e ) {
+        } catch (IOException e) {
             String message = "Something went wrong with file upload.";
             return "redirect:/result?isSuccessful=" + false + "&message=" + message;
+        } catch (DuplicateKeyException exception) {
+            String message = "This file already exists";
+            return "redirect:/result?isSuccessful=" + false + "&message=" + message;
         }
+        String message = "The file has been uploaded successfully.";
+        return "redirect:/result?isSuccessful=" + true + "&message=" + message;
     }
 
     @GetMapping("/{id}/delete")
     public String delete(
             Principal principal,
-            @PathVariable int id,
-            Model model
+            @PathVariable int id
     ){
         File file = fileService.getFileForUserByFileId(principal.getName(), id);
         if(file == null){
@@ -85,5 +97,10 @@ public class FileController {
         outputStream.write(file.getFileData());
         outputStream.close();
 
+    }
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public String handleFileTooLargeError(){
+        String message = "File is too large.";
+        return "redirect:/result?isSuccessful=" + false + "&message=" + message;
     }
 }
